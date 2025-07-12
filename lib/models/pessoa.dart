@@ -1,8 +1,8 @@
 import 'package:dividas/models/transacao.dart';
 
 class Pessoa {
-  Pessoa(this.divida, this.transacoes);
+  Pessoa(this.dividaTotal, this.transacoes);
 
-  final int divida;
+  final double dividaTotal;
   final List<Transacao> transacoes;
 }

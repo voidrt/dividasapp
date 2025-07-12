@@ -20,24 +20,31 @@ class DividasAppTheme {
       headlineMedium: PetTrackTextStyle.headlineText,
     ),
     scaffoldBackgroundColor: AppColors.background,
-    appBarTheme: AppBarTheme(foregroundColor: AppColors.black),
+    appBarTheme: AppBarTheme(
+      foregroundColor: AppColors.darkGrey,
+      backgroundColor: AppColors.primary,
+    ),
     splashColor: Colors.transparent,
     highlightColor: Colors.transparent,
     buttonTheme: const ButtonThemeData(splashColor: Colors.transparent),
     inputDecorationTheme: InputDecorationTheme(
       enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide.none,
-        borderRadius: BorderRadius.circular(30),
+        borderSide: BorderSide(color: AppColors.lightGrey, width: 1),
+        borderRadius: BorderRadius.circular(15),
       ),
       disabledBorder: OutlineInputBorder(
-        borderSide: BorderSide.none,
-        borderRadius: BorderRadius.circular(30),
+        borderSide: BorderSide(color: AppColors.lightGrey, width: 1),
+        borderRadius: BorderRadius.circular(15),
       ),
-      border: InputBorder.none,
+      border: OutlineInputBorder(
+        borderSide: BorderSide(color: AppColors.lightGrey, width: 1),
+        borderRadius: BorderRadius.circular(15),
+      ),
       focusedBorder: OutlineInputBorder(
         borderSide: BorderSide(color: AppColors.primary, width: 1),
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(15),
       ),
+
       filled: true,
       fillColor: AppColors.onBackground,
       contentPadding: const EdgeInsets.symmetric(
