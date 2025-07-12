@@ -33,7 +33,7 @@ class TransactionCard extends StatelessWidget {
         horizontal: AppPaddings.defaultSize,
         vertical: AppPaddings.medium,
       ),
-      height: MediaQuery.of(context).size.height / 6.5,
+      height: MediaQuery.of(context).size.height / 6,
       padding: EdgeInsets.zero,
       child: Row(
         children: [
@@ -48,30 +48,31 @@ class TransactionCard extends StatelessWidget {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(AppPaddings.defaultSize),
-                child: Column(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        StandardHeadlineText(tituloTransacao),
-                        Row(
-                          children: [
-                            StandardHeadlineText('Valor:  '),
-                            StandardHeadlineText(
-                              valorTransacao,
-                              color: AppColors.green,
-                            ),
-                          ],
+                        StandardBodyText(
+                          '${tituloTransacao[0].toUpperCase()}${tituloTransacao.substring(1)}',
+                        ),
+                        StandardSubtitleText(
+                          'Dia ${dataTransacao.day}/${dataTransacao.month}',
+                        ),
+                        Spacer(),
+                        StandardBodyText(
+                          descricaoTransacao ?? '',
+                          textOverflow: TextOverflow.ellipsis,
                         ),
                       ],
                     ),
-
-                    StandardSubtitleText(
-                      'Dia ${dataTransacao.day}/${dataTransacao.month}',
+                    StandardBodyText('Valor: '),
+                    StandardBodyText(
+                      'R\$$valorTransacao',
+                      color: AppColors.green,
                     ),
-                    SizedBox(height: AppPaddings.big),
-                    StandardBodyText(descricaoTransacao ?? ''),
                   ],
                 ),
               ),

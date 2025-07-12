@@ -1,5 +1,6 @@
 import 'package:dividas/models/transacao.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final transactionProvider =
     StateNotifierProvider<TransactionNotifier, List<Transacao>>(
@@ -17,14 +18,19 @@ class TransactionNotifier extends StateNotifier<List<Transacao>> {
     return result;
   }
 
-  void add(String titulo, String? descricao, DateTime data, double valor) {
+  void add(
+    String titulo,
+    String? descricao,
+    DateTime data,
+    double valor,
+  ) async {
     state = [
       Transacao(data: data, titulo: titulo, valor: valor, descricao: descricao),
       ...state,
     ];
   }
 
-  void remove(Transacao transacao) {
+  void remove(Transacao transacao) async {
     state = [...state.where((transicao) => transicao != transacao)];
   }
 }

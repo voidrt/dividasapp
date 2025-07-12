@@ -20,7 +20,7 @@ class HomePage extends ConsumerWidget {
     );
     return Scaffold(
       appBar: AppBar(
-        title: StandardHeadlineText("Dívidas do bocó"),
+        title: StandardBodyText("Dívidas do bocó"),
         actions: [
           Text('Total em BRL: '),
           Text(rojas.dividaTotal.toStringAsFixed(0)),
@@ -43,7 +43,10 @@ class HomePage extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: AppPaddings.small),
-          StandardBodyText('    Lista de dívidas'),
+          Padding(
+            padding: const EdgeInsets.only(left: AppPaddings.defaultSize),
+            child: StandardBodyText('Lista de dívidas:'),
+          ),
           Expanded(
             child: ListView.builder(
               itemCount: rojas.transacoes.length,

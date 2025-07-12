@@ -9,4 +9,8 @@ class Transacao {
   final double valor;
   final String titulo;
   final String? descricao;
+
+  @override
+  String toString() =>
+      "{'data': ${data.day}/${data.month}, 'valor': $valor, 'titulo': $titulo, 'descricao': $descricao}";
 }
