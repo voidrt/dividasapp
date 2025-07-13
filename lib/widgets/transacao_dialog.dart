@@ -1,4 +1,6 @@
-import 'package:dividas/repository/transacoes_provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dividas/models/transacao.dart';
+import 'package:dividas/repository/transacoes_database.dart';
 import 'package:dividas/shared/standard_text.dart';
 import 'package:dividas/theme/colors.dart';
 import 'package:flutter/material.dart';
@@ -33,15 +35,15 @@ class _AddTransacaoState extends State<AddTransacao> {
       actions: [
         TextButton(
           onPressed: () {
-            widget.ref
-                .read(transactionProvider.notifier)
-                .add(
-                  titulo.text,
-                  descricao.text,
-                  DateTime.now(),
-                  double.parse(valor.text),
-                );
-                
+            Storage().saveTransactionToStorage(
+              Transacao(
+                data: Timestamp.now(),
+                descricao: descricao.text,
+                titulo: titulo.text,
+                valor: double.parse(valor.text),
+              ),
+            );
+
             Navigator.pop(context);
           },
           child: StandardBodyText('Adicionar dívida'),

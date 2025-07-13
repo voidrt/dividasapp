@@ -1,16 +1,32 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:json_annotation/json_annotation.dart';
+
 class Transacao {
   Transacao({
     required this.data,
-    required this.valor,
-    required this.titulo,
     this.descricao = '',
+    required this.titulo,
+    required this.valor,
   });
-  final DateTime data;
-  final double valor;
-  final String titulo;
+  final Timestamp data;
   final String? descricao;
+  final String titulo;
+  final double valor;
 
-  @override
-  String toString() =>
-      "{'data': ${data.day}/${data.month}, 'valor': $valor, 'titulo': $titulo, 'descricao': $descricao}";
+  Transacao.fromJson(Map<String, dynamic> json)
+    : this(
+        data: json['data']! as Timestamp,
+        descricao: json['descricao']! as String,
+        titulo: json['titulo']! as String,
+        valor: json['valor']! as double,
+      );
+
+  Map<String, dynamic> toJson() {
+    return {
+      'data': data,
+      'descricao': descricao,
+      'titulo': titulo,
+      'valor': valor,
+    };
+  }
 }

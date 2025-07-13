@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "258386124698",
+    "project_id": "dividasapp-43559",
+    "storage_bucket": "dividasapp-43559.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:258386124698:android:825d3344d92b82fbb3e423",
+        "android_client_info": {
+          "package_name": "com.example.dividas"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDyL1crqeKAtjchuCrUcBtcMD81E9CyiTY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

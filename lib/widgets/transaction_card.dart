@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dividas/shared/standard_text.dart';
 import 'package:dividas/theme/colors.dart';
 import 'package:dividas/theme/paddings.dart';
@@ -17,7 +18,7 @@ class TransactionCard extends StatelessWidget {
 
   final String tituloTransacao;
   final String valorTransacao;
-  final DateTime dataTransacao;
+  final Timestamp dataTransacao;
   final String? descricaoTransacao;
   final VoidCallback delete;
   final VoidCallback edit;
@@ -59,7 +60,7 @@ class TransactionCard extends StatelessWidget {
                           '${tituloTransacao[0].toUpperCase()}${tituloTransacao.substring(1)}',
                         ),
                         StandardSubtitleText(
-                          'Dia ${dataTransacao.day}/${dataTransacao.month}',
+                          'Dia ${dataTransacao.toDate().day}/${dataTransacao.toDate().month}',
                         ),
                         Spacer(),
                         StandardBodyText(

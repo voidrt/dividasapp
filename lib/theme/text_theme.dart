@@ -5,21 +5,21 @@ import 'colors.dart';
 
 class PetTrackTextStyle {
   static final subtitleText = GoogleFonts.getFont(
-    'Exo',
+    'Quicksand',
     fontSize: TextSizes.subtitle,
     fontWeight: FontWeight.w300,
     color: AppColors.black,
   );
 
   static final bodyText = GoogleFonts.getFont(
-    'Exo',
+    'Quicksand',
     fontSize: TextSizes.bodyTextSize,
     fontWeight: FontWeight.w400,
     color: AppColors.black,
   );
 
   static final headlineText = GoogleFonts.getFont(
-    'Exo',
+    'Quicksand',
     fontSize: TextSizes.headlineTextSize,
     fontWeight: FontWeight.w300,
     color: AppColors.black,

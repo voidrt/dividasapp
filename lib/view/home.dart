@@ -1,5 +1,5 @@
 import 'package:dividas/models/transacao.dart';
-import 'package:dividas/repository/transacoes_provider.dart';
+import 'package:dividas/repository/transacoes_database.dart';
 import 'package:dividas/shared/standard_text.dart';
 import 'package:dividas/theme/colors.dart';
 import 'package:dividas/theme/paddings.dart';
@@ -23,11 +23,11 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    late double dividaTotal;
-    final List<Transacao> transacoes = ref.watch(transactionProvider);
+    var database = Storage();
+    late double dividaTotal = 0;
 
-    dividaTotal = ref.watch(transactionProvider.notifier).sumAllTransactions();
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: StandardBodyText("Dívidas do bocó"),
         actions: [
@@ -57,19 +57,29 @@ class _HomePageState extends ConsumerState<HomePage> {
             child: StandardBodyText('Lista de dívidas:'),
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: transacoes.length,
-              itemBuilder: (context, count) {
-                final Transacao transacao = transacoes[count];
+            child: StreamBuilder(
+              stream: database.getTransactions(),
+              builder: (context, snapshots) {
+                List? transacoes = snapshots.data?.docs ?? [];
 
-                return TransactionCard(
-                  tituloTransacao: transacao.titulo,
-                  valorTransacao: transacao.valor.toStringAsFixed(1),
-                  dataTransacao: transacao.data,
-                  descricaoTransacao: transacao.descricao,
-                  delete: () =>
-                      ref.read(transactionProvider.notifier).remove(transacao),
-                  edit: () {},
+                return ListView.builder(
+                  itemCount: transacoes.length,
+                  itemBuilder: (context, count) {
+                    Transacao transacao = transacoes[count].data();
+
+                    return TransactionCard(
+                      tituloTransacao: transacao.titulo,
+                      valorTransacao: transacao.valor.toStringAsFixed(1),
+                      dataTransacao: transacao.data,
+                      descricaoTransacao: transacao.descricao,
+                      delete: () {
+                        database.removeTransactionFromStorage(
+                          transacoes[count],
+                        );
+                      },
+                      edit: () {},
+                    );
+                  },
                 );
               },
             ),
