@@ -1,4 +1,3 @@
-import 'package:dividas/models/pessoa.dart';
 import 'package:dividas/models/transacao.dart';
 import 'package:dividas/repository/transacoes_provider.dart';
 import 'package:dividas/shared/standard_text.dart';
@@ -9,21 +8,31 @@ import 'package:dividas/widgets/transaction_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomePage extends ConsumerWidget {
+class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final Pessoa rojas = Pessoa(
-      ref.watch(transactionProvider.notifier).sumAllTransactions(),
-      ref.watch(transactionProvider),
-    );
+  ConsumerState<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends ConsumerState<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    late double dividaTotal;
+    final List<Transacao> transacoes = ref.watch(transactionProvider);
+
+    dividaTotal = ref.watch(transactionProvider.notifier).sumAllTransactions();
     return Scaffold(
       appBar: AppBar(
         title: StandardBodyText("Dívidas do bocó"),
         actions: [
           Text('Total em BRL: '),
-          Text(rojas.dividaTotal.toStringAsFixed(0)),
+          Text(dividaTotal.toStringAsFixed(0)),
           SizedBox(width: AppPaddings.defaultSize),
         ],
       ),
@@ -49,9 +58,9 @@ class HomePage extends ConsumerWidget {
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: rojas.transacoes.length,
+              itemCount: transacoes.length,
               itemBuilder: (context, count) {
-                final Transacao transacao = rojas.transacoes[count];
+                final Transacao transacao = transacoes[count];
 
                 return TransactionCard(
                   tituloTransacao: transacao.titulo,
