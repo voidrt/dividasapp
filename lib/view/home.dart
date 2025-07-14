@@ -26,7 +26,7 @@ class _HomePageState extends ConsumerState<HomePage> {
       stream: database.getTransactions(),
       builder: (context, snapshots) {
         List? transacoes = snapshots.data?.docs ?? [];
-        late double dividaTotal = 0;
+        double dividaTotal = 0;
 
         for (var element in transacoes) {
           dividaTotal += (element['valor']);
@@ -34,13 +34,38 @@ class _HomePageState extends ConsumerState<HomePage> {
 
         return Scaffold(
           resizeToAvoidBottomInset: false,
+          backgroundColor: AppColors.background,
           appBar: AppBar(
-            title: StandardBodyText("Dívidas do bocó"),
-            actions: [
-              Text('Total em BRL: '),
-              Text(dividaTotal.toStringAsFixed(0)),
-              SizedBox(width: AppPaddings.defaultSize),
-            ],
+            backgroundColor: AppColors.black,
+            title: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                StandardHeadlineText(
+                  "Dívidas do bocó",
+                  color: AppColors.backgroundWhite,
+                ),
+                Row(
+                  children: [
+                    StandardBodyText(
+                      'Total em BRL: ',
+                      color: AppColors.background,
+                    ),
+                    StandardBodyText(
+                      'R\$',
+                      color: AppColors.green,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    StandardBodyText(
+                      dividaTotal.toStringAsFixed(0),
+                      color: AppColors.green,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            toolbarHeight: AppPaddings.superUltraBig * 1.5,
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () {
@@ -52,16 +77,13 @@ class _HomePageState extends ConsumerState<HomePage> {
               );
             },
             backgroundColor: AppColors.primary,
-            child: Icon(Icons.add),
+            child: Icon(Icons.add, size: 30),
           ),
           body: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: AppPaddings.small),
-              Padding(
-                padding: const EdgeInsets.only(left: AppPaddings.defaultSize),
-                child: StandardBodyText('Lista de dívidas:'),
-              ),
+              SizedBox(height: AppPaddings.medium),
+
               Expanded(
                 child: ListView.builder(
                   itemCount: transacoes.length,

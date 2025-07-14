@@ -41,7 +41,7 @@ class TransactionCard extends StatelessWidget {
           Expanded(
             child: Container(
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surface,
+                color: AppColors.backgroundWhite,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(10),
                   bottomLeft: Radius.circular(10),
@@ -49,30 +49,39 @@ class TransactionCard extends StatelessWidget {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(AppPaddings.defaultSize),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Column(
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        StandardBodyText(
-                          '${tituloTransacao[0].toUpperCase()}${tituloTransacao.substring(1)}',
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            StandardBodyText(
+                              '${tituloTransacao[0].toUpperCase()}${tituloTransacao.substring(1)}',
+                            ),
+                            StandardSubtitleText(
+                              'Dia ${dataTransacao.toDate().day}/${dataTransacao.toDate().month}',
+                            ),
+                          ],
                         ),
-                        StandardSubtitleText(
-                          'Dia ${dataTransacao.toDate().day}/${dataTransacao.toDate().month}',
-                        ),
-                        Spacer(),
-                        StandardBodyText(
-                          descricaoTransacao ?? '',
-                          textOverflow: TextOverflow.ellipsis,
+                        Row(
+                          children: [
+                            StandardBodyText('Valor: '),
+                            StandardBodyText(
+                              'R\$$valorTransacao',
+                              color: AppColors.green,
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                    StandardBodyText('Valor: '),
+                    Spacer(),
                     StandardBodyText(
-                      'R\$$valorTransacao',
-                      color: AppColors.green,
+                      descricaoTransacao ?? '',
+                      textOverflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ),
