@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dividas/models/transacao.dart';
 import 'package:dividas/repository/transacoes_database.dart';
 import 'package:dividas/shared/standard_text.dart';
@@ -17,52 +19,51 @@ class HomePage extends ConsumerStatefulWidget {
 
 class _HomePageState extends ConsumerState<HomePage> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     var database = Storage();
-    late double dividaTotal = 0;
 
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: StandardBodyText("Dívidas do bocó"),
-        actions: [
-          Text('Total em BRL: '),
-          Text(dividaTotal.toStringAsFixed(0)),
-          SizedBox(width: AppPaddings.defaultSize),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (context) {
-              return AddTransacao(ref: ref);
-            },
-          );
-        },
-        backgroundColor: AppColors.primary,
-        child: Icon(Icons.add),
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: AppPaddings.small),
-          Padding(
-            padding: const EdgeInsets.only(left: AppPaddings.defaultSize),
-            child: StandardBodyText('Lista de dívidas:'),
+    return StreamBuilder(
+      stream: database.getTransactions(),
+      builder: (context, snapshots) {
+        List? transacoes = snapshots.data?.docs ?? [];
+        late double dividaTotal = 0;
+
+        for (var element in transacoes) {
+          dividaTotal += (element['valor']);
+        }
+
+        return Scaffold(
+          resizeToAvoidBottomInset: false,
+          appBar: AppBar(
+            title: StandardBodyText("Dívidas do bocó"),
+            actions: [
+              Text('Total em BRL: '),
+              Text(dividaTotal.toStringAsFixed(0)),
+              SizedBox(width: AppPaddings.defaultSize),
+            ],
           ),
-          Expanded(
-            child: StreamBuilder(
-              stream: database.getTransactions(),
-              builder: (context, snapshots) {
-                List? transacoes = snapshots.data?.docs ?? [];
-
-                return ListView.builder(
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AddTransacao(ref: ref);
+                },
+              );
+            },
+            backgroundColor: AppColors.primary,
+            child: Icon(Icons.add),
+          ),
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: AppPaddings.small),
+              Padding(
+                padding: const EdgeInsets.only(left: AppPaddings.defaultSize),
+                child: StandardBodyText('Lista de dívidas:'),
+              ),
+              Expanded(
+                child: ListView.builder(
                   itemCount: transacoes.length,
                   itemBuilder: (context, count) {
                     Transacao transacao = transacoes[count].data();
@@ -80,12 +81,12 @@ class _HomePageState extends ConsumerState<HomePage> {
                       edit: () {},
                     );
                   },
-                );
-              },
-            ),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

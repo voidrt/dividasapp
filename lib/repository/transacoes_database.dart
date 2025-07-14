@@ -17,7 +17,7 @@ class Storage {
   late final CollectionReference _reference;
 
   Stream<QuerySnapshot> getTransactions() {
-    return _reference.snapshots();
+    return _reference.orderBy("data", descending: true).snapshots();
   }
 
   void saveTransactionToStorage(Transacao transaction) async {
