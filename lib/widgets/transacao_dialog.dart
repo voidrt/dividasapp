@@ -1,15 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dividas/models/transacao.dart';
-import 'package:dividas/repository/transacoes_database.dart';
 import 'package:dividas/shared/standard_text.dart';
 import 'package:dividas/theme/colors.dart';
+import 'package:dividas/viewmodels/home_viewmodel.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AddTransacao extends StatefulWidget {
-  const AddTransacao({super.key, required this.ref});
+  const AddTransacao({super.key, required this.viewModel, required this.state});
 
-  final WidgetRef ref;
+  final HomeViewModel viewModel;
+  final HomeState state;
 
   @override
   State<AddTransacao> createState() => _AddTransacaoState();
@@ -35,16 +34,13 @@ class _AddTransacaoState extends State<AddTransacao> {
       actions: [
         TextButton(
           onPressed: () {
-            Storage().saveTransactionToStorage(
-              Transacao(
-                data: Timestamp.now(),
-                descricao: descricao.text,
-                titulo: titulo.text,
-                valor: double.parse(valor.text),
-              ),
+            widget.viewModel.addTransaction(
+              Timestamp.now(),
+              descricao.text,
+              titulo.text,
+              valor.text,
             );
-
-            Navigator.pop(context);
+            if (context.mounted) Navigator.pop(context);
           },
           child: StandardBodyText('Adicionar dívida'),
         ),
